@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,6 +7,7 @@
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+    --font-pixel: "Press Start 2P", monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -42,46 +44,46 @@
 }
 
 :root {
-    --background: oklch(0.22 0.015 30); /* dark rusty clay */
-    --foreground: oklch(0.9 0.01 40); /* warm parchment */
+    --background: #1d1f21; /* Charcoal black (think CRT idle screen) */
+    --foreground: #c6c6c6; /* Light gray text — readable and retro */
 
-    --card: oklch(0.26 0.015 30); /* slightly elevated rusty clay */
-    --card-foreground: oklch(0.9 0.01 40);
+    --card: #2b2d2f; /* Slight contrast block */
+    --card-foreground: #e1e1e1;
 
-    --popover: oklch(0.25 0.015 30);
-    --popover-foreground: oklch(0.9 0.01 40);
+    --popover: #262729;
+    --popover-foreground: #ffffff;
 
-    --primary: oklch(0.6 0.14 27); /* desaturated rustic red */
-    --primary-foreground: oklch(0.15 0.01 25);
+    --primary: #ff004d; /* Classic 8-bit red (NES Mario cap) */
+    --primary-foreground: #fff;
 
-    --secondary: oklch(0.45 0.08 85); /* muted amber/ochre */
-    --secondary-foreground: oklch(0.15 0.01 25);
+    --secondary: #00e756; /* Bright green (terminal meets Game Boy) */
+    --secondary-foreground: #000;
 
-    --muted: oklch(0.3 0.01 30); /* grungy mud tone */
-    --muted-foreground: oklch(0.65 0.01 35);
+    --muted: #3f3f3f;
+    --muted-foreground: #a9a9a9;
 
-    --accent: oklch(0.5 0.1 20); /* iron oxide red */
-    --accent-foreground: oklch(0.9 0.01 40);
+    --accent: #83769c; /* Dusty purple — for flavor */
+    --accent-foreground: #fff;
 
-    --destructive: oklch(0.58 0.15 27); /* richer red-orange */
-    --border: oklch(0.4 0.02 30 / 15%);
-    --input: oklch(0.4 0.02 30 / 20%);
-    --ring: oklch(0.58 0.12 30); /* subtle highlight ring */
+    --destructive: #ff6c24; /* NES-style orange explosion */
+    --border: #3a3a3a;
+    --input: #3a3a3a;
+    --ring: #ffcd05; /* Old-school yellow like a Super Star */
 
-    --chart-1: oklch(0.55 0.1 35); /* warm rust */
-    --chart-2: oklch(0.6 0.08 90); /* golden dust */
-    --chart-3: oklch(0.5 0.08 160); /* aged circuit green */
-    --chart-4: oklch(0.48 0.09 25); /* dull red */
-    --chart-5: oklch(0.52 0.1 15); /* rust-brown */
+    --chart-1: #ff3864; /* Bubblegum red */
+    --chart-2: #3affff; /* Cyan pop */
+    --chart-3: #ffcd05; /* Power-up yellow */
+    --chart-4: #7e00d6; /* Deep purple */
+    --chart-5: #00e756; /* Green-on-black hacker vibes */
 
-    --sidebar: oklch(0.23 0.015 30); /* slightly darker than background */
-    --sidebar-foreground: oklch(0.9 0.01 40);
-    --sidebar-primary: oklch(0.6 0.14 27);
-    --sidebar-primary-foreground: oklch(0.15 0.01 25);
-    --sidebar-accent: oklch(0.45 0.08 85);
-    --sidebar-accent-foreground: oklch(0.15 0.01 25);
-    --sidebar-border: oklch(0.4 0.02 30 / 15%);
-    --sidebar-ring: oklch(0.58 0.12 30);
+    --sidebar: #141516; /* Solid and pixel-dark */
+    --sidebar-foreground: #e4e4e4;
+    --sidebar-primary: #ff004d;
+    --sidebar-primary-foreground: #fff;
+    --sidebar-accent: #00e756;
+    --sidebar-accent-foreground: #000;
+    --sidebar-border: #2f2f2f;
+    --sidebar-ring: #ffcd05;
 }
 
 @layer base {
@@ -90,5 +92,26 @@
     }
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer utilities {
+    .font-pixel {
+        font-family: "Press Start 2P", monospace;
+        line-height: 1.6;
+        letter-spacing: 0.05em;
+    }
+
+    .font-pixel-lg {
+        font-family: "Press Start 2P", monospace;
+        line-height: 1.4;
+        letter-spacing: 0.02em;
+    }
+
+    .font-pixel-sm {
+        font-family: "Press Start 2P", monospace;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+        font-size: 0.75rem;
     }
 }
