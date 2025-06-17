@@ -77,6 +77,7 @@ export function CreatePurseForm() {
   const [purseId, setPurseId] = useState<string>("");
   const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -118,6 +119,78 @@ export function CreatePurseForm() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const generateUsernameSuggestions = () => {
+    const adjectives = [
+      "Cosmic",
+      "Digital",
+      "Crypto",
+      "Quantum",
+      "Stellar",
+      "Neon",
+      "Cyber",
+      "Electric",
+      "Mystic",
+      "Golden",
+      "Silver",
+      "Diamond",
+      "Emerald",
+      "Sapphire",
+      "Swift",
+      "Bold",
+      "Clever",
+      "Mighty",
+      "Fierce",
+      "Brave",
+      "Wise",
+      "Lucky",
+      "Happy",
+      "Chill",
+    ];
+
+    const nouns = [
+      "Whale",
+      "Tiger",
+      "Eagle",
+      "Phoenix",
+      "Dragon",
+      "Wolf",
+      "Fox",
+      "Bear",
+      "Shark",
+      "Falcon",
+      "Raven",
+      "Lion",
+      "Panda",
+      "Koala",
+      "Ninja",
+      "Wizard",
+      "Knight",
+      "Pirate",
+      "Explorer",
+      "Pioneer",
+      "Voyager",
+      "Trader",
+      "Hunter",
+      "Guardian",
+    ];
+
+    const suggestions = [];
+    for (let i = 0; i < 3; i++) {
+      const adjective =
+        adjectives[Math.floor(Math.random() * adjectives.length)];
+      const noun = nouns[Math.floor(Math.random() * nouns.length)];
+      const number = Math.floor(Math.random() * 999) + 1;
+      suggestions.push(`${adjective}${noun}${number}`);
+    }
+
+    setUsernameSuggestions(suggestions);
+  };
+
+  const applyUsernameSuggestion = (suggestion: string) => {
+    form.setValue("username", suggestion);
+    toast.success(`Username set to "${suggestion}"`);
   };
 
   const onSubmit = async (values: FormValues) => {
@@ -248,6 +321,46 @@ export function CreatePurseForm() {
                           to others.
                         </FormDescription>
                         <FormMessage />
+
+                        {/* Username Suggestions */}
+                        <div className="mt-3 space-y-2">
+                          <div className="flex items-center gap-2">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={generateUsernameSuggestions}
+                            >
+                              Need ideas?
+                            </Button>
+                          </div>
+
+                          {usernameSuggestions.length > 0 && (
+                            <div className="space-y-2">
+                              <p className="text-sm text-muted-foreground">
+                                How about...
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {usernameSuggestions.map(
+                                  (suggestion, index) => (
+                                    <Button
+                                      key={index}
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-auto px-3 py-1 text-sm border border-dashed hover:border-solid hover:bg-accent"
+                                      onClick={() =>
+                                        applyUsernameSuggestion(suggestion)
+                                      }
+                                    >
+                                      {suggestion}
+                                    </Button>
+                                  ),
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </FormItem>
                     )}
                   />
