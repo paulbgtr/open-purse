@@ -20,6 +20,9 @@ import {
   Key,
   ArrowRight,
 } from "lucide-react";
+import { Press_Start_2P } from "next/font/google";
+
+const pressStart2P = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
   return (
@@ -27,7 +30,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="min-h-[85vh] flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 px-4">
         <div className="text-center space-y-8 max-w-4xl">
-          <h1 className="text-6xl md:text-7xl font-bold text-foreground tracking-tight">
+          <h1
+            className={`${pressStart2P.className} text-6xl md:text-7xl font-bold text-foreground tracking-tight`}
+          >
             open-purse
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
@@ -35,7 +40,7 @@ export default function Home() {
             completely under your control.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" asChild className="text-lg px-8 py-6">
+            <Button size="lg" asChild>
               <Link href="/new">
                 Create Your Purse
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -60,7 +65,7 @@ export default function Home() {
       <section className="py-24 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-4xl font-pixel text-foreground mb-4">
               Why Open Purse?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -71,7 +76,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-foreground">
+              <h3 className="text-2xl font-pixel text-foreground">
                 The Problem
               </h3>
               <ul className="space-y-4 text-muted-foreground">
@@ -99,7 +104,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-foreground">
+              <h3 className="text-2xl font-pixel text-foreground">
                 Our Solution
               </h3>
               <ul className="space-y-4 text-muted-foreground">
@@ -129,7 +134,7 @@ export default function Home() {
       <section className="py-24 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-4xl font-pixel text-foreground mb-4">
               Built for Creators
             </h2>
             <p className="text-xl text-muted-foreground">
@@ -142,7 +147,9 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <Wallet className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Multi-Wallet Support</CardTitle>
+                <CardTitle className="font-pixel-sm">
+                  Multi-Wallet Support
+                </CardTitle>
                 <CardDescription>
                   Accept any crypto in one place.
                 </CardDescription>
@@ -152,7 +159,7 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <QrCode className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>QR Code Sharing</CardTitle>
+                <CardTitle className="font-pixel-sm">QR Code Sharing</CardTitle>
                 <CardDescription>
                   Generate a QR code that contains all your payment info.
                   Perfect for streams, videos, or IRL events.
@@ -163,7 +170,9 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <Key className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Verified Identity</CardTitle>
+                <CardTitle className="font-pixel-sm">
+                  Verified Identity
+                </CardTitle>
                 <CardDescription>
                   Unique purse:xxxx identifier prevents impersonation and builds
                   trust with your audience.
@@ -174,7 +183,7 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <Shield className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Privacy First</CardTitle>
+                <CardTitle className="font-pixel-sm">Privacy First</CardTitle>
                 <CardDescription>
                   No tracking, no data collection, no surveillance. Your
                   supporters&apos; privacy is protected.
@@ -185,7 +194,7 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <Zap className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Lightning Fast</CardTitle>
+                <CardTitle className="font-pixel-sm">Lightning Fast</CardTitle>
                 <CardDescription>
                   Static sites mean instant loading. No databases, no servers,
                   no downtime.
@@ -196,7 +205,9 @@ export default function Home() {
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <Globe className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Global by Design</CardTitle>
+                <CardTitle className="font-pixel-sm">
+                  Global by Design
+                </CardTitle>
                 <CardDescription>
                   Works anywhere in the world. No geographic restrictions or
                   payment processor limitations.
@@ -213,7 +224,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-4xl font-bold text-foreground mb-4">
+                <h2 className="text-4xl font-pixel text-foreground mb-4">
                   Own Your Infrastructure
                 </h2>
                 <p className="text-xl text-muted-foreground">
@@ -226,7 +237,7 @@ export default function Home() {
                 <div className="flex items-start gap-4">
                   <Code className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">
+                    <h3 className="font-pixel-sm text-foreground mb-1">
                       Open Source
                     </h3>
                     <p className="text-muted-foreground">
@@ -239,7 +250,7 @@ export default function Home() {
                 <div className="flex items-start gap-4">
                   <Download className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">
+                    <h3 className="font-pixel-sm text-foreground mb-1">
                       Easy Deployment
                     </h3>
                     <p className="text-muted-foreground">
@@ -252,7 +263,7 @@ export default function Home() {
                 <div className="flex items-start gap-4">
                   <Users className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">
+                    <h3 className="font-pixel-sm text-foreground mb-1">
                       Community Driven
                     </h3>
                     <p className="text-muted-foreground">
@@ -273,7 +284,7 @@ export default function Home() {
 
             <Card className="p-8 bg-muted/50 border-2 border-dashed border-muted-foreground/20">
               <CardContent className="space-y-4 p-0">
-                <h3 className="text-xl font-semibold text-foreground">
+                <h3 className="text-xl font-pixel text-foreground">
                   Quick Deploy
                 </h3>
                 <div className="bg-background p-4 rounded-lg border font-mono text-sm">
@@ -302,9 +313,9 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 bg-primary text-primary-foreground">
+      <section className="py-24 px-4 bg-primary">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl font-bold">Ready to Take Control?</h2>
+          <h2 className="text-4xl font-pixel">Ready to Take Control?</h2>
           <p className="text-xl opacity-90 max-w-2xl mx-auto">
             Join creators who&apos;ve already switched to a better way. Create
             your purse in minutes, keep 100% of your donations, and never worry
@@ -326,7 +337,7 @@ export default function Home() {
               size="lg"
               variant="outline"
               asChild
-              className="text-lg px-8 py-6 border-primary-foreground/20 hover:bg-primary-foreground/10"
+              className="text-lg px-8 py-6"
             >
               <Link href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo">
                 <BiSolidInvader className="mr-2 h-5 w-5" />
