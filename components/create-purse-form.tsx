@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { generatePurseId } from "@/lib/utils";
+import { createPurse } from "@/lib/actions/create-purse";
+import { generateUsernameSuggestions } from "@/lib/utils";
 
 import {
   Plus,
@@ -78,6 +79,7 @@ export function CreatePurseForm() {
   const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -108,6 +110,11 @@ export function CreatePurseForm() {
     name: "links",
   });
 
+  useEffect(() => {
+    const suggestions = generateUsernameSuggestions();
+    setUsernameSuggestions(suggestions);
+  }, []);
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -121,73 +128,6 @@ export function CreatePurseForm() {
     }
   };
 
-  const generateUsernameSuggestions = () => {
-    const adjectives = [
-      "Cosmic",
-      "Digital",
-      "Crypto",
-      "Quantum",
-      "Stellar",
-      "Neon",
-      "Cyber",
-      "Electric",
-      "Mystic",
-      "Golden",
-      "Silver",
-      "Diamond",
-      "Emerald",
-      "Sapphire",
-      "Swift",
-      "Bold",
-      "Clever",
-      "Mighty",
-      "Fierce",
-      "Brave",
-      "Wise",
-      "Lucky",
-      "Happy",
-      "Chill",
-    ];
-
-    const nouns = [
-      "Whale",
-      "Tiger",
-      "Eagle",
-      "Phoenix",
-      "Dragon",
-      "Wolf",
-      "Fox",
-      "Bear",
-      "Shark",
-      "Falcon",
-      "Raven",
-      "Lion",
-      "Panda",
-      "Koala",
-      "Ninja",
-      "Wizard",
-      "Knight",
-      "Pirate",
-      "Explorer",
-      "Pioneer",
-      "Voyager",
-      "Trader",
-      "Hunter",
-      "Guardian",
-    ];
-
-    const suggestions = [];
-    for (let i = 0; i < 3; i++) {
-      const adjective =
-        adjectives[Math.floor(Math.random() * adjectives.length)];
-      const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const number = Math.floor(Math.random() * 999) + 1;
-      suggestions.push(`${adjective}${noun}${number}`);
-    }
-
-    setUsernameSuggestions(suggestions);
-  };
-
   const applyUsernameSuggestion = (suggestion: string) => {
     form.setValue("username", suggestion);
     toast.success(`Username set to "${suggestion}"`);
@@ -195,17 +135,30 @@ export function CreatePurseForm() {
 
   const onSubmit = async (values: FormValues) => {
     console.log("Form submitted:", values);
+    setIsLoading(true);
 
-    const username = values.username;
     try {
-      const id = await generatePurseId(username);
-      setPurseId(id);
-    } catch (error) {
-      console.error("Error generating purse ID:", error);
-      toast.error("Failed to generate purse ID");
-    }
+      const result = await createPurse({
+        username: values.username,
+        avatar: values.avatar,
+        bio: values.bio,
+        walletAddresses: values.walletAddresses,
+        links: values.links,
+      });
 
-    setIsSubmitted(true);
+      if (!result.success || !result.purseId) {
+        toast.error(result.error || "Failed to create purse");
+      }
+
+      setPurseId(result.purseId!);
+      setIsSubmitted(true);
+      toast.success("Purse created successfully!");
+    } catch (error) {
+      console.error("Error creating purse:", error);
+      toast.error("Failed to create purse. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -550,8 +503,13 @@ export function CreatePurseForm() {
 
                 {/* Submit Button */}
                 <div className="pt-6">
-                  <Button type="submit" className="w-full" size="lg">
-                    Create Purse
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Creating Purse..." : "Create Purse"}
                   </Button>
                 </div>
               </form>
