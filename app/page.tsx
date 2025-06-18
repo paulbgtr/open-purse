@@ -28,19 +28,38 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 px-4">
-        <div className="text-center space-y-8 max-w-4xl">
-          <h1
-            className={`${pressStart2P.className} text-6xl md:text-7xl font-bold text-foreground tracking-tight`}
-          >
-            open-purse
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+      <section className="min-h-[85vh] flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 px-4 relative overflow-hidden">
+        {/* 8-bit background pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[length:8px_8px] pointer-events-none"></div>
+
+        <div className="text-center space-y-8 max-w-4xl relative z-10">
+          {/* Pixelated title with retro glow */}
+          <div className="relative">
+            <h1
+              className={`${pressStart2P.className} text-6xl md:text-7xl font-bold text-foreground tracking-tight relative`}
+              style={{
+                textShadow:
+                  "4px 4px 0px var(--primary), 8px 8px 0px var(--secondary)",
+                filter: "drop-shadow(0 0 20px rgba(255, 0, 77, 0.3))",
+              }}
+            >
+              open-purse
+            </h1>
+            {/* 8-bit border effect */}
+            <div className="absolute -inset-4 border-2 border-primary/20 rounded-none shadow-[8px_8px_0px_0px_theme(colors.accent/20)] -z-10"></div>
+          </div>
+
+          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto font-pixel-sm">
             Accept donations without BS. One link, all your payment methods,
             completely under your control.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" asChild>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button
+              size="lg"
+              asChild
+              className="text-lg px-8 py-6 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
+            >
               <Link href="/new">
                 Create Your Purse
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -50,7 +69,7 @@ export default function Home() {
               variant="outline"
               size="lg"
               asChild
-              className="text-lg px-8 py-6"
+              className="text-lg px-8 py-6 font-pixel-sm border-2 shadow-[4px_4px_0px_0px_theme(colors.muted)] hover:shadow-[6px_6px_0px_0px_theme(colors.muted)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
             >
               <Link href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo">
                 <BiSolidInvader className="mr-2 h-5 w-5" />
@@ -144,71 +163,89 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-primary/20 shadow-[6px_6px_0px_0px_theme(colors.primary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.primary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <Wallet className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-destructive rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <Wallet className="h-6 w-6 text-primary-foreground" />
+                </div>
+                <CardTitle className="font-pixel-sm text-primary">
                   Multi-Wallet Support
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="font-pixel-sm text-xs">
                   Accept any crypto in one place.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-secondary/20 shadow-[6px_6px_0px_0px_theme(colors.secondary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.secondary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <QrCode className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">QR Code Sharing</CardTitle>
-                <CardDescription>
+                <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <QrCode className="h-6 w-6 text-secondary-foreground" />
+                </div>
+                <CardTitle className="font-pixel-sm text-secondary">
+                  QR Code Sharing
+                </CardTitle>
+                <CardDescription className="font-pixel-sm text-xs">
                   Generate a QR code that contains all your payment info.
                   Perfect for streams, videos, or IRL events.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-ring/20 shadow-[6px_6px_0px_0px_theme(colors.ring/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.ring/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <Key className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">
+                <div className="w-12 h-12 bg-gradient-to-br from-ring to-primary rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <Key className="h-6 w-6 text-background" />
+                </div>
+                <CardTitle className="font-pixel-sm text-ring">
                   Verified Identity
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="font-pixel-sm text-xs">
                   Unique purse:xxxx identifier prevents impersonation and builds
                   trust with your audience.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-accent/20 shadow-[6px_6px_0px_0px_theme(colors.accent/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.accent/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <Shield className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">Privacy First</CardTitle>
-                <CardDescription>
+                <div className="w-12 h-12 bg-gradient-to-br from-accent to-secondary rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <Shield className="h-6 w-6 text-accent-foreground" />
+                </div>
+                <CardTitle className="font-pixel-sm text-accent">
+                  Privacy First
+                </CardTitle>
+                <CardDescription className="font-pixel-sm text-xs">
                   No tracking, no data collection, no surveillance. Your
                   supporters&apos; privacy is protected.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-destructive/20 shadow-[6px_6px_0px_0px_theme(colors.destructive/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.destructive/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <Zap className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">Lightning Fast</CardTitle>
-                <CardDescription>
+                <div className="w-12 h-12 bg-gradient-to-br from-destructive to-ring rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <Zap className="h-6 w-6 text-destructive-foreground" />
+                </div>
+                <CardTitle className="font-pixel-sm text-destructive">
+                  Lightning Fast
+                </CardTitle>
+                <CardDescription className="font-pixel-sm text-xs">
                   Static sites mean instant loading. No databases, no servers,
                   no downtime.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border-2 border-primary/20 shadow-[6px_6px_0px_0px_theme(colors.primary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.primary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
               <CardHeader>
-                <Globe className="h-10 w-10 text-primary mb-2" />
-                <CardTitle className="font-pixel-sm">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                  <Globe className="h-6 w-6 text-primary-foreground" />
+                </div>
+                <CardTitle className="font-pixel-sm text-primary">
                   Global by Design
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="font-pixel-sm text-xs">
                   Works anywhere in the world. No geographic restrictions or
                   payment processor limitations.
                 </CardDescription>
@@ -291,20 +328,18 @@ export default function Home() {
                   <div className="text-muted-foreground">
                     # Clone the repository
                   </div>
-                  <div>git clone rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo</div>
+                  <div>rad clone rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo</div>
                   <br />
                   <div className="text-muted-foreground">
                     # Install dependencies
                   </div>
                   <div>bun install</div>
                   <br />
-                  <div className="text-muted-foreground">
-                    # Deploy to Vercel
-                  </div>
-                  <div>vercel --prod</div>
+                  <div className="text-muted-foreground"># RUN IT!</div>
+                  <div>bun run build && bun run start</div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Your own Open Purse instance running in under 5 minutes.
+                  Your own Open Purse instance running in under 1 minute.
                 </p>
               </CardContent>
             </Card>
@@ -313,20 +348,26 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 bg-primary">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl font-pixel">Ready to Take Control?</h2>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
+      <section className="py-24 px-4 relative overflow-hidden">
+        {/* 8-bit background pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:12px_12px] pointer-events-none"></div>
+
+        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+          <h2 className="text-4xl font-pixel relative">
+            Ready to Take Control?
+            <div className="absolute -inset-2 border-2 border-primary-foreground/20 rounded-none shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] -z-10"></div>
+          </h2>
+          <p className="text-xl opacity-90 max-w-2xl mx-auto font-pixel-sm">
             Join creators who&apos;ve already switched to a better way. Create
             your purse in minutes, keep 100% of your donations, and never worry
             about platform fees again.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
               size="lg"
               variant="secondary"
               asChild
-              className="text-lg px-8 py-6"
+              className="text-lg px-8 py-6 font-pixel-sm border-2 shadow-[4px_4px_0px_0px_theme(colors.secondary)] hover:shadow-[6px_6px_0px_0px_theme(colors.secondary)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
             >
               <Link href="/new">
                 Create Your Purse Now
@@ -337,7 +378,7 @@ export default function Home() {
               size="lg"
               variant="outline"
               asChild
-              className="text-lg px-8 py-6"
+              className="text-lg px-8 py-6 font-pixel-sm border-2 border-primary-foreground shadow-[4px_4px_0px_0px_theme(colors.primary-foreground)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary-foreground)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
             >
               <Link href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo">
                 <BiSolidInvader className="mr-2 h-5 w-5" />
