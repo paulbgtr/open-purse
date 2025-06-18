@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { adjectives, nouns } from "./data/username-suggestions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -7,10 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export const generatePurseId = async (
   username: string | undefined = "anonymous",
-) => {
+): Promise<string> => {
   try {
     const timestamp = Date.now().toString();
-    const randomBytes = window.crypto.getRandomValues(new Uint8Array(16));
+    const randomBytes = crypto.getRandomValues(new Uint8Array(16));
     const randomString = Array.from(randomBytes, (byte) =>
       byte.toString(36),
     ).join("");
@@ -18,7 +19,7 @@ export const generatePurseId = async (
     // Create a hash from username + timestamp + random data
     const data = `${username}-${timestamp}-${randomString}`;
     const encoder = new TextEncoder();
-    const hashBuffer = await window.crypto.subtle.digest(
+    const hashBuffer = await crypto.subtle.digest(
       "SHA-256",
       encoder.encode(data),
     );
@@ -41,4 +42,16 @@ export const generatePurseId = async (
     console.error("ID generation error:", error);
     throw error;
   }
+};
+
+export const generateUsernameSuggestions = (): string[] => {
+  const suggestions = [];
+
+  for (let i = 0; i < 3; i++) {
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const number = Math.floor(Math.random() * 999) + 1;
+    suggestions.push(`${adjective}${noun}${number}`);
+  }
+  return suggestions;
 };
