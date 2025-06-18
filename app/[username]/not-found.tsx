@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Search, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
@@ -26,26 +32,25 @@ export default function NotFound() {
                   <Search className="h-12 w-12 text-muted-foreground" />
                 </div>
               </div>
-              <CardTitle className="text-2xl font-bold">Purse Not Found</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                Purse Not Found
+              </CardTitle>
               <CardDescription className="text-lg">
-                This username doesn't exist in our directory
+                This username doesn&apos;t exist in our directory
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6">
-                The purse you're looking for might have been removed, or the username might be incorrect.
+                The purse you&apos;re looking for might have been removed, or
+                the username might be incorrect.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/">
-                  <Button variant="default">
-                    Browse All Purses
-                  </Button>
+                  <Button variant="default">Browse All Purses</Button>
                 </Link>
                 <Link href="/new">
-                  <Button variant="outline">
-                    Create Your Own Purse
-                  </Button>
+                  <Button variant="outline">Create Your Own Purse</Button>
                 </Link>
               </div>
             </CardContent>
