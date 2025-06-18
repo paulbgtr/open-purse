@@ -23,7 +23,7 @@ export const ViewPurse = ({ purse }: { purse: PurseData }) => {
     try {
       await navigator.clipboard.writeText(text);
       toast.success(`${label} copied to clipboard!`);
-    } catch (err) {
+    } catch {
       toast.error("Failed to copy to clipboard");
     }
   };
