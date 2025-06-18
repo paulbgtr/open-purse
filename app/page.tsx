@@ -88,33 +88,91 @@ export default function Home() {
   };
   return (
     <div className="min-h-screen">
+      {/* Navbar */}
+      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-primary/20 shadow-[0_2px_0px_0px_theme(colors.primary/20)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-none border-2 border-primary flex items-center justify-center shadow-[2px_2px_0px_0px_theme(colors.primary)] group-hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-all">
+                <span className="text-primary-foreground font-pixel text-xs">
+                  OP
+                </span>
+              </div>
+              <span className="font-pixel text-lg text-foreground">
+                open-purse
+              </span>
+            </Link>
+
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link
+                href="#features"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Features
+              </Link>
+              <Link
+                href="#aura"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Aura Calculator
+              </Link>
+              <Link
+                href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo"
+                target="_blank"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              >
+                <BiSolidInvader className="h-4 w-4" />
+                Source
+              </Link>
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex items-center space-x-4">
+              <Button
+                asChild
+                size="sm"
+                className="font-pixel-sm shadow-[2px_2px_0px_0px_theme(colors.primary)] hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] hover:translate-x-[-1px] hover:translate-y-[-1px]"
+              >
+                <Link href="/new">Create Purse</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 px-4 relative overflow-hidden">
+      <section className="min-h-[90vh] flex flex-col justify-center bg-gradient-to-br from-primary/10 to-accent/10 px-4 relative overflow-hidden">
         {/* 8-bit background pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[length:8px_8px] pointer-events-none"></div>
 
-        <div className="text-center space-y-8 max-w-4xl relative z-10">
-          {/* Pixelated title with retro glow */}
-          <div className="relative">
-            <h1
-              className={`${pressStart2P.className} text-6xl md:text-7xl font-bold text-foreground tracking-tight relative`}
-              style={{
-                textShadow:
-                  "4px 4px 0px var(--primary), 8px 8px 0px var(--secondary)",
-                filter: "drop-shadow(0 0 20px rgba(255, 0, 77, 0.3))",
-              }}
-            >
-              open-purse
-            </h1>
-            {/* 8-bit border effect */}
-            <div className="absolute -inset-4 border-2 border-primary/20 rounded-none shadow-[8px_8px_0px_0px_theme(colors.accent/20)] -z-10"></div>
+        <div className="max-w-7xl mx-auto text-center space-y-12 relative z-10">
+          {/* Main Hero Content */}
+          <div className="space-y-8">
+            {/* Pixelated title with retro glow */}
+            <div className="relative">
+              <h1
+                className={`${pressStart2P.className} text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight relative`}
+                style={{
+                  textShadow:
+                    "4px 4px 0px var(--primary), 8px 8px 0px var(--secondary)",
+                  filter: "drop-shadow(0 0 20px rgba(255, 0, 77, 0.3))",
+                }}
+              >
+                open-purse
+              </h1>
+              {/* 8-bit border effect */}
+              <div className="absolute -inset-4 border-2 border-primary/20 rounded-none shadow-[8px_8px_0px_0px_theme(colors.accent/20)] -z-10"></div>
+            </div>
+
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-pixel-sm">
+              Accept donations without BS. One link, all your payment methods,
+              completely under your control.
+            </p>
           </div>
 
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto font-pixel-sm">
-            Accept donations without BS. One link, all your payment methods,
-            completely under your control.
-          </p>
-
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button
               size="lg"
@@ -137,6 +195,28 @@ export default function Home() {
                 View Source
               </Link>
             </Button>
+          </div>
+
+          {/* Hero Stats/Features Preview */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto pt-8">
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-pixel text-primary">0%</div>
+              <div className="font-pixel-sm text-xs text-muted-foreground">
+                Platform Fees
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-pixel text-secondary">100%</div>
+              <div className="font-pixel-sm text-xs text-muted-foreground">
+                Your Money
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-pixel text-accent">∞</div>
+              <div className="font-pixel-sm text-xs text-muted-foreground">
+                Wallet Support
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -211,7 +291,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 px-4 bg-muted/30">
+      <section id="features" className="py-24 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-pixel text-foreground mb-4">
@@ -409,7 +489,10 @@ export default function Home() {
       </section>
 
       {/* Aura Calculator Section */}
-      <section className="py-24 px-4 bg-destructive relative overflow-hidden">
+      <section
+        id="aura"
+        className="py-24 px-4 bg-destructive relative overflow-hidden"
+      >
         {/* Wild 8-bit background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_3px_3px,rgba(255,255,255,0.15)_3px,transparent_0)] bg-[length:24px_24px] pointer-events-none"></div>
 
