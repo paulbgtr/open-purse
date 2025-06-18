@@ -165,7 +165,7 @@ export default function Home() {
           >
             {Array.from({ length: 20 }, (_, j) => (
               <div key={j} className="block">
-                {Math.random() > 0.5 ? "1" : "0"}
+                {(i + j) % 2 === 0 ? "1" : "0"}
               </div>
             ))}
           </div>
