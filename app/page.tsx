@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,7 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
+import { useState } from "react";
 import { BiSolidInvader } from "react-icons/bi";
 import {
   Wallet,
@@ -19,12 +25,67 @@ import {
   QrCode,
   Key,
   ArrowRight,
+  Sparkles,
+  Dice1,
 } from "lucide-react";
 import { Press_Start_2P } from "next/font/google";
+import { calculateAura, AuraResult } from "@/lib/utils/aura-calculator";
 
 const pressStart2P = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const [auraInput, setAuraInput] = useState({
+    username: "",
+    bio: "",
+    wallets: [] as string[],
+    links: [] as string[],
+  });
+  const [calculatedAura, setCalculatedAura] = useState<AuraResult | null>(null);
+  const [showAuraResult, setShowAuraResult] = useState(false);
+
+  const handleCalculateAura = () => {
+    // Create mock purse data for aura calculation
+    const mockPurse = {
+      id: 1,
+      hash: "mock",
+      username: auraInput.username || "anon",
+      bio: auraInput.bio,
+      avatar: null,
+      walletAddresses: auraInput.wallets.map((wallet, i) => ({
+        id: i,
+        type: wallet,
+        address: `mock_address_${i}`,
+        label: null,
+      })),
+      links: auraInput.links.map((link, i) => ({
+        id: i,
+        title: link,
+        url: `https://${link.toLowerCase()}.com`,
+      })),
+    };
+
+    const aura = calculateAura(mockPurse);
+    setCalculatedAura(aura);
+    setShowAuraResult(true);
+  };
+
+  const addWallet = (type: string) => {
+    if (!auraInput.wallets.includes(type)) {
+      setAuraInput((prev) => ({ ...prev, wallets: [...prev.wallets, type] }));
+    }
+  };
+
+  const addLink = (link: string) => {
+    if (!auraInput.links.includes(link)) {
+      setAuraInput((prev) => ({ ...prev, links: [...prev.links, link] }));
+    }
+  };
+
+  const resetAura = () => {
+    setAuraInput({ username: "", bio: "", wallets: [], links: [] });
+    setCalculatedAura(null);
+    setShowAuraResult(false);
+  };
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -347,8 +408,265 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Aura Calculator Section */}
+      <section className="py-24 px-4 bg-destructive relative overflow-hidden">
+        {/* Wild 8-bit background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_3px_3px,rgba(255,255,255,0.15)_3px,transparent_0)] bg-[length:24px_24px] pointer-events-none"></div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-pixel text-destructive-foreground mb-6 relative animate-pulse">
+              LET&apos;S CALCULATE YOUR AURA BTW
+              <div className="absolute -inset-4 border-4 border-ring rounded-none shadow-[8px_8px_0px_0px_theme(colors.ring)] -z-10"></div>
+            </h2>
+            <p className="text-xl text-destructive-foreground/90 font-pixel-sm max-w-3xl mx-auto">
+              Our AI-powered algorithm (a single Javascript function) analyzes
+              your crypto behavior to determine your digital aura. Are you a
+              hacker1337 or just another normie? Let&apos;s find out!
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Input Section */}
+            <Card className="border-4 border-ring shadow-[8px_8px_0px_0px_theme(colors.ring)] bg-gradient-to-br from-background to-muted">
+              <CardHeader>
+                <CardTitle className="font-pixel text-destructive flex items-center gap-2">
+                  <Sparkles className="h-6 w-6" />
+                  Tell Us About Yourself
+                </CardTitle>
+                <CardDescription className="font-pixel-sm">
+                  The more info, the more accurate your aura calculation
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <label className="font-pixel-sm text-foreground">
+                    Username
+                  </label>
+                  <Input
+                    placeholder="your_crypto_username"
+                    value={auraInput.username}
+                    onChange={(e) =>
+                      setAuraInput((prev) => ({
+                        ...prev,
+                        username: e.target.value,
+                      }))
+                    }
+                    className="font-pixel-sm"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="font-pixel-sm text-foreground">
+                    Bio/Description
+                  </label>
+                  <Textarea
+                    placeholder="Tell us about your crypto journey, what you do, your interests..."
+                    value={auraInput.bio}
+                    onChange={(e) =>
+                      setAuraInput((prev) => ({ ...prev, bio: e.target.value }))
+                    }
+                    className="font-pixel-sm min-h-[100px]"
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <label className="font-pixel-sm text-foreground">
+                    Crypto Wallets
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {[
+                      "Bitcoin",
+                      "Ethereum",
+                      "Monero",
+                      "Solana",
+                      "Cardano",
+                      "Dogecoin",
+                    ].map((wallet) => (
+                      <Button
+                        key={wallet}
+                        size="sm"
+                        variant={
+                          auraInput.wallets.includes(wallet)
+                            ? "default"
+                            : "outline"
+                        }
+                        onClick={() => addWallet(wallet)}
+                        className="font-pixel-sm text-xs"
+                      >
+                        {wallet}
+                      </Button>
+                    ))}
+                  </div>
+                  {auraInput.wallets.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {auraInput.wallets.map((wallet) => (
+                        <Badge
+                          key={wallet}
+                          variant="secondary"
+                          className="font-pixel-sm"
+                        >
+                          {wallet}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <label className="font-pixel-sm text-foreground">
+                    Social Platforms
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {[
+                      "Twitter",
+                      "GitHub",
+                      "Twitch",
+                      "YouTube",
+                      "Discord",
+                      "TikTok",
+                    ].map((platform) => (
+                      <Button
+                        key={platform}
+                        size="sm"
+                        variant={
+                          auraInput.links.includes(platform)
+                            ? "default"
+                            : "outline"
+                        }
+                        onClick={() => addLink(platform)}
+                        className="font-pixel-sm text-xs"
+                      >
+                        {platform}
+                      </Button>
+                    ))}
+                  </div>
+                  {auraInput.links.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {auraInput.links.map((link) => (
+                        <Badge
+                          key={link}
+                          variant="secondary"
+                          className="font-pixel-sm"
+                        >
+                          {link}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <Button
+                    onClick={handleCalculateAura}
+                    className="flex-1 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                  >
+                    <Dice1 className="mr-2 h-4 w-4" />
+                    Calculate My Aura
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={resetAura}
+                    className="font-pixel-sm"
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Result Section */}
+            <div className="space-y-6">
+              {!showAuraResult ? (
+                <Card className="border-4 border-dashed border-muted-foreground/30 bg-muted/20 text-center py-16">
+                  <CardContent>
+                    <div className="text-6xl mb-4">🎮</div>
+                    <p className="font-pixel-sm text-muted-foreground">
+                      Your aura will appear here once calculated...
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card
+                  className={`border-4 border-ring shadow-[8px_8px_0px_0px_theme(colors.ring)] bg-gradient-to-br ${calculatedAura?.color} text-center overflow-hidden relative`}
+                >
+                  <div className="absolute inset-0 bg-background/80"></div>
+                  <CardContent className="py-12 relative z-10">
+                    <div className="text-8xl mb-6">{calculatedAura?.emoji}</div>
+                    <h3 className="text-3xl font-pixel text-foreground mb-4">
+                      {calculatedAura?.name}
+                    </h3>
+                    <p className="text-lg font-pixel-sm text-muted-foreground mb-8">
+                      {calculatedAura?.description}
+                    </p>
+                    <div className="space-y-4">
+                      <p className="font-pixel-sm text-sm text-muted-foreground">
+                        This is how your purse would look with this aura!
+                      </p>
+                      <Button
+                        size="lg"
+                        asChild
+                        className="font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                      >
+                        <Link href="/new">
+                          Create My Purse Now
+                          <ArrowRight className="ml-2 h-5 w-5" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Sample Auras */}
+              <Card className="border-2 border-accent/20 shadow-[4px_4px_0px_0px_theme(colors.accent/20)] bg-gradient-to-br from-card to-card/80">
+                <CardHeader>
+                  <CardTitle className="font-pixel-sm text-accent">
+                    Sample Auras
+                  </CardTitle>
+                  <CardDescription className="font-pixel-sm text-xs">
+                    Some legendary auras you might unlock
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { name: "hacker1337", emoji: "🕶️", desc: "Privacy guru" },
+                      {
+                        name: "degen_king",
+                        emoji: "👑",
+                        desc: "Risk incarnate",
+                      },
+                      {
+                        name: "diamond_hands",
+                        emoji: "💎",
+                        desc: "HODL master",
+                      },
+                      { name: "nft_legend", emoji: "🎨", desc: "Art pioneer" },
+                    ].map((aura) => (
+                      <div
+                        key={aura.name}
+                        className="text-center p-3 border-2 border-muted rounded-none bg-muted/20"
+                      >
+                        <div className="text-2xl mb-1">{aura.emoji}</div>
+                        <div className="font-pixel-sm text-xs text-foreground">
+                          {aura.name}
+                        </div>
+                        <div className="font-pixel-sm text-[10px] text-muted-foreground">
+                          {aura.desc}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-24 px-4 relative overflow-hidden">
+      <section className="py-24 px-4 bg-primary relative overflow-hidden">
         {/* 8-bit background pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:12px_12px] pointer-events-none"></div>
 
