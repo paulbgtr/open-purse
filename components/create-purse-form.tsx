@@ -76,6 +76,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export function CreatePurseForm() {
   const [purseId, setPurseId] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
@@ -148,9 +149,11 @@ export function CreatePurseForm() {
 
       if (!result.success || !result.purseId) {
         toast.error(result.error || "Failed to create purse");
+        return;
       }
 
       setPurseId(result.purseId!);
+      setUsername(values.username);
       setIsSubmitted(true);
       toast.success("Purse created successfully!");
     } catch (error) {
@@ -193,7 +196,7 @@ export function CreatePurseForm() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <Button asChild className="flex-1">
-                <Link href={`/${purseId}`}>
+                <Link href={`/${username}`}>
                   <User className="h-4 w-4 mr-2" />
                   View My Purse
                 </Link>
@@ -203,12 +206,14 @@ export function CreatePurseForm() {
                 size="lg"
                 className="flex-1"
                 onClick={() => {
-                  navigator.clipboard.writeText(purseId);
-                  toast.success("Purse ID copied to clipboard!");
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/${username}`,
+                  );
+                  toast.success("Purse URL copied to clipboard!");
                 }}
               >
                 <LinkIcon className="h-4 w-4 mr-2" />
-                Copy ID
+                Copy URL
               </Button>
             </div>
           </CardContent>
