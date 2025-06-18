@@ -33,6 +33,67 @@ import { calculateAura, AuraResult } from "@/lib/utils/aura-calculator";
 
 const pressStart2P = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
+// Add CSS animations
+const animations = `
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  @keyframes matrix {
+    0% { transform: translateY(-100vh); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+  @keyframes wiggle {
+    0%, 7% { transform: rotateZ(0); }
+    15% { transform: rotateZ(-15deg); }
+    20% { transform: rotateZ(10deg); }
+    25% { transform: rotateZ(-10deg); }
+    30% { transform: rotateZ(6deg); }
+    35% { transform: rotateZ(-4deg); }
+    40%, 100% { transform: rotateZ(0); }
+  }
+  .float { animation: float 3s ease-in-out infinite; }
+  .bounce { animation: bounce 2s infinite; }
+  .glitch { animation: glitch 0.3s infinite; }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  .shake { animation: shake 0.5s ease-in-out infinite; }
+  .wiggle { animation: wiggle 2s ease-in-out infinite; }
+  .matrix { animation: matrix 3s linear infinite; }
+`;
+
 export default function Home() {
   const [auraInput, setAuraInput] = useState({
     username: "",
@@ -88,18 +149,40 @@ export default function Home() {
   };
   return (
     <div className="min-h-screen">
+      <style jsx>{animations}</style>
+
+      {/* Matrix Rain Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {Array.from({ length: 20 }, (_, i) => (
+          <div
+            key={i}
+            className="absolute text-primary/20 font-mono text-xs matrix"
+            style={{
+              left: `${i * 5}%`,
+              animationDelay: `${i * 0.2}s`,
+              animationDuration: `${3 + (i % 3)}s`,
+            }}
+          >
+            {Array.from({ length: 20 }, (_, j) => (
+              <div key={j} className="block">
+                {Math.random() > 0.5 ? "1" : "0"}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
       {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-primary/20 shadow-[0_2px_0px_0px_theme(colors.primary/20)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-none border-2 border-primary flex items-center justify-center shadow-[2px_2px_0px_0px_theme(colors.primary)] group-hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-all">
-                <span className="text-primary-foreground font-pixel text-xs">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-none border-2 border-primary flex items-center justify-center shadow-[2px_2px_0px_0px_theme(colors.primary)] group-hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-all float group-hover:glitch">
+                <span className="text-primary-foreground font-pixel text-xs wiggle">
                   OP
                 </span>
               </div>
-              <span className="font-pixel text-lg text-foreground">
+              <span className="font-pixel text-lg text-foreground group-hover:shake transition-all">
                 open-purse
               </span>
             </Link>
@@ -108,22 +191,22 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-6">
               <Link
                 href="#features"
-                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors hover:bounce"
               >
                 Features
               </Link>
               <Link
                 href="#aura"
-                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors hover:pulse"
               >
                 Aura Calculator
               </Link>
               <Link
                 href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo"
                 target="_blank"
-                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                className="font-pixel-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 hover:wiggle"
               >
-                <BiSolidInvader className="h-4 w-4" />
+                <BiSolidInvader className="h-4 w-4 float" />
                 Source
               </Link>
             </div>
@@ -133,7 +216,7 @@ export default function Home() {
               <Button
                 asChild
                 size="sm"
-                className="font-pixel-sm shadow-[2px_2px_0px_0px_theme(colors.primary)] hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] hover:translate-x-[-1px] hover:translate-y-[-1px]"
+                className="font-pixel-sm shadow-[2px_2px_0px_0px_theme(colors.primary)] hover:shadow-[3px_3px_0px_0px_theme(colors.primary)] hover:translate-x-[-1px] hover:translate-y-[-1px] pulse hover:glitch"
               >
                 <Link href="/new">Create Purse</Link>
               </Button>
@@ -153,7 +236,7 @@ export default function Home() {
             {/* Pixelated title with retro glow */}
             <div className="relative">
               <h1
-                className={`${pressStart2P.className} text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight relative`}
+                className={`${pressStart2P.className} text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight relative pulse hover:glitch cursor-default`}
                 style={{
                   textShadow:
                     "4px 4px 0px var(--primary), 8px 8px 0px var(--secondary)",
@@ -163,13 +246,31 @@ export default function Home() {
                 open-purse
               </h1>
               {/* 8-bit border effect */}
-              <div className="absolute -inset-4 border-2 border-primary/20 rounded-none shadow-[8px_8px_0px_0px_theme(colors.accent/20)] -z-10"></div>
+              <div className="absolute -inset-4 border-2 border-primary/20 rounded-none shadow-[8px_8px_0px_0px_theme(colors.accent/20)] -z-10 float"></div>
+
+              {/* Floating particles around title */}
+              <div className="absolute -inset-8 pointer-events-none">
+                {Array.from({ length: 8 }, (_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-2 h-2 bg-primary rounded-none float"
+                    style={{
+                      left: `${20 + i * 10}%`,
+                      top: `${10 + (i % 3) * 30}%`,
+                      animationDelay: `${i * 0.5}s`,
+                      animationDuration: `${2 + (i % 2)}s`,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
 
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-pixel-sm">
-              Accept donations without BS. One link, all your payment methods,
-              completely under your control.
-            </p>
+            <div className="relative overflow-hidden">
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mt-4 max-w-3xl mx-auto font-pixel-sm float">
+                Accept donations without BS. One link, all your payment methods,
+                completely under your control.
+              </p>
+            </div>
           </div>
 
           {/* Action Buttons */}
@@ -177,21 +278,21 @@ export default function Home() {
             <Button
               size="lg"
               asChild
-              className="text-lg px-8 py-6 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
+              className="text-lg px-8 py-6 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150 bounce hover:pulse hover:glitch"
             >
               <Link href="/new">
                 Create Your Purse
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 float" />
               </Link>
             </Button>
             <Button
               variant="outline"
               size="lg"
               asChild
-              className="text-lg px-8 py-6 font-pixel-sm border-2 shadow-[4px_4px_0px_0px_theme(colors.muted)] hover:shadow-[6px_6px_0px_0px_theme(colors.muted)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150"
+              className="text-lg px-8 py-6 font-pixel-sm border-2 shadow-[4px_4px_0px_0px_theme(colors.muted)] hover:shadow-[6px_6px_0px_0px_theme(colors.muted)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-150 hover:wiggle"
             >
               <Link href="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:zLgjwq88he45CuZ9j1uzV6Xbh8yo">
-                <BiSolidInvader className="mr-2 h-5 w-5" />
+                <BiSolidInvader className="mr-2 h-5 w-5 float" />
                 View Source
               </Link>
             </Button>
@@ -199,21 +300,33 @@ export default function Home() {
 
           {/* Hero Stats/Features Preview */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto pt-8">
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-pixel text-primary">0%</div>
-              <div className="font-pixel-sm text-xs text-muted-foreground">
+            <div className="text-center space-y-2 float hover:bounce cursor-pointer group">
+              <div className="text-3xl font-pixel text-primary pulse group-hover:shake">
+                0%
+              </div>
+              <div className="font-pixel-sm text-xs text-muted-foreground group-hover:wiggle">
                 Platform Fees
               </div>
             </div>
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-pixel text-secondary">100%</div>
-              <div className="font-pixel-sm text-xs text-muted-foreground">
+            <div
+              className="text-center space-y-2 hover:bounce cursor-pointer group"
+              style={{ animationDelay: "0.5s" }}
+            >
+              <div className="text-3xl font-pixel text-secondary pulse group-hover:glitch">
+                100%
+              </div>
+              <div className="font-pixel-sm text-xs text-muted-foreground group-hover:wiggle">
                 Your Money
               </div>
             </div>
-            <div className="text-center space-y-2">
-              <div className="text-3xl font-pixel text-accent">∞</div>
-              <div className="font-pixel-sm text-xs text-muted-foreground">
+            <div
+              className="text-center space-y-2 float hover:bounce cursor-pointer group"
+              style={{ animationDelay: "1s" }}
+            >
+              <div className="text-3xl font-pixel text-accent wiggle group-hover:pulse">
+                ∞
+              </div>
+              <div className="font-pixel-sm text-xs text-muted-foreground group-hover:shake">
                 Wallet Support
               </div>
             </div>
@@ -304,12 +417,12 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-2 border-primary/20 shadow-[6px_6px_0px_0px_theme(colors.primary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.primary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
+            <Card className="border-2 border-primary/20 shadow-[6px_6px_0px_0px_theme(colors.primary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.primary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80 float hover:pulse group">
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-destructive rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-destructive rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)] bounce group-hover:wiggle">
                   <Wallet className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <CardTitle className="font-pixel-sm text-primary">
+                <CardTitle className="font-pixel-sm text-primary group-hover:shake">
                   Multi-Wallet Support
                 </CardTitle>
                 <CardDescription className="font-pixel-sm text-xs">
@@ -318,12 +431,15 @@ export default function Home() {
               </CardHeader>
             </Card>
 
-            <Card className="border-2 border-secondary/20 shadow-[6px_6px_0px_0px_theme(colors.secondary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.secondary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80">
+            <Card
+              className="border-2 border-secondary/20 shadow-[6px_6px_0px_0px_theme(colors.secondary/20)] hover:shadow-[8px_8px_0px_0px_theme(colors.secondary/30)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 bg-gradient-to-br from-card to-card/80 hover:pulse group"
+              style={{ animationDelay: "0.3s" }}
+            >
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)]">
-                  <QrCode className="h-6 w-6 text-secondary-foreground" />
+                <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-none mb-4 flex items-center justify-center shadow-[3px_3px_0px_0px_theme(colors.background)] float group-hover:bounce">
+                  <QrCode className="h-6 w-6 text-secondary-foreground wiggle" />
                 </div>
-                <CardTitle className="font-pixel-sm text-secondary">
+                <CardTitle className="font-pixel-sm text-secondary group-hover:glitch">
                   QR Code Sharing
                 </CardTitle>
                 <CardDescription className="font-pixel-sm text-xs">
@@ -642,15 +758,15 @@ export default function Home() {
                 <div className="flex gap-4 pt-4">
                   <Button
                     onClick={handleCalculateAura}
-                    className="flex-1 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                    className="flex-1 font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px] pulse hover:glitch"
                   >
-                    <Dice1 className="mr-2 h-4 w-4" />
+                    <Dice1 className="mr-2 h-4 w-4 bounce" />
                     Calculate My Aura
                   </Button>
                   <Button
                     variant="outline"
                     onClick={resetAura}
-                    className="font-pixel-sm"
+                    className="font-pixel-sm hover:wiggle"
                   >
                     Reset
                   </Button>
@@ -661,10 +777,10 @@ export default function Home() {
             {/* Result Section */}
             <div className="space-y-6">
               {!showAuraResult ? (
-                <Card className="border-4 border-dashed border-muted-foreground/30 bg-muted/20 text-center py-16">
+                <Card className="border-4 border-dashed border-muted-foreground/30 bg-muted/20 text-center py-16 pulse">
                   <CardContent>
-                    <div className="text-6xl mb-4">🎮</div>
-                    <p className="font-pixel-sm text-muted-foreground">
+                    <div className="text-6xl mb-4 float">🎮</div>
+                    <p className="font-pixel-sm text-muted-foreground wiggle">
                       Your aura will appear here once calculated...
                     </p>
                   </CardContent>
@@ -675,25 +791,27 @@ export default function Home() {
                 >
                   <div className="absolute inset-0 bg-background/80"></div>
                   <CardContent className="py-12 relative z-10">
-                    <div className="text-8xl mb-6">{calculatedAura?.emoji}</div>
-                    <h3 className="text-3xl font-pixel text-foreground mb-4">
+                    <div className="text-8xl mb-6 bounce">
+                      {calculatedAura?.emoji}
+                    </div>
+                    <h3 className="text-3xl font-pixel text-foreground mb-4 pulse">
                       {calculatedAura?.name}
                     </h3>
-                    <p className="text-lg font-pixel-sm text-muted-foreground mb-8">
+                    <p className="text-lg font-pixel-sm text-muted-foreground mb-8 float">
                       {calculatedAura?.description}
                     </p>
                     <div className="space-y-4">
-                      <p className="font-pixel-sm text-sm text-muted-foreground">
+                      <p className="font-pixel-sm text-sm text-muted-foreground wiggle">
                         This is how your purse would look with this aura!
                       </p>
                       <Button
                         size="lg"
                         asChild
-                        className="font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                        className="font-pixel-sm shadow-[4px_4px_0px_0px_theme(colors.primary)] hover:shadow-[6px_6px_0px_0px_theme(colors.primary)] hover:translate-x-[-2px] hover:translate-y-[-2px] bounce hover:glitch"
                       >
                         <Link href="/new">
                           Create My Purse Now
-                          <ArrowRight className="ml-2 h-5 w-5" />
+                          <ArrowRight className="ml-2 h-5 w-5 float" />
                         </Link>
                       </Button>
                     </div>
